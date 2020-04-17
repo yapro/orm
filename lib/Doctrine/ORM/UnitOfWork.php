@@ -1396,10 +1396,6 @@ class UnitOfWork implements PropertyChangedListener
             return $this->entityStates[$oid];
         }
 
-        if ($assume !== null) {
-            return $assume;
-        }
-
         // State can only be NEW or DETACHED, because MANAGED/REMOVED states are known.
         // Note that you can not remember the NEW or DETACHED state in _entityStates since
         // the UoW does not hold references to such objects and the object hash can be reused.
@@ -1410,6 +1406,10 @@ class UnitOfWork implements PropertyChangedListener
 
         if (! $id) {
             return self::STATE_NEW;
+        }
+
+        if ($assume !== null) {
+            return $assume;
         }
 
         $flatId = $this->em->getIdentifierFlattener()->flattenIdentifier($class, $id);
